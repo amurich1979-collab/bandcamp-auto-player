@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bandcamp Auto Player</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { width: 240px; margin: 0; padding: 14px; font: 14px/1.4 system-ui, sans-serif; }
+    h1 { margin: 0 0 10px; font-size: 16px; }
+    #status { min-height: 40px; margin: 0 0 12px; color: #555; }
+    #status.error { color: #b42318; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    button { margin-top: 8px; padding: 9px 10px; border: 1px solid #1687a7; border-radius: 6px; cursor: pointer; }
+    button.primary { width: 100%; color: white; background: #1687a7; }
+    button:disabled { cursor: wait; opacity: .55; }
+    @media (prefers-color-scheme: dark) { #status { color: #bbb; } }
+  </style>
+</head>
+<body>
+  <h1>Bandcamp Auto Player</h1>
+  <p id="status" aria-live="polite">Проверяю страницу…</p>
+  <button class="primary" data-action="start">Запустить</button>
+  <button class="primary" data-action="stop">Остановить</button>
+  <div class="row">
+    <button data-action="previous">← Назад</button>
+    <button data-action="next">Вперёд →</button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
