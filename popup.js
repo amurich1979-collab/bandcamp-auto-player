@@ -8,6 +8,7 @@ const toggleHistoryButton = document.getElementById('toggleHistory');
 function setStatus(text, isError = false) {
   statusElement.textContent = text;
   statusElement.classList.toggle('error', isError);
+  statusElement.classList.toggle('empty', !text);
 }
 
 async function sendAction(action, extra = {}) {
@@ -81,7 +82,7 @@ async function runAction(action) {
     renderStatus(response.status);
     if (action !== 'status') await refresh();
   } catch (error) {
-    setStatus('Open Bandcamp Discover and reload the page after installing the extension.', true);
+    setStatus('');
   } finally {
     controls.forEach((button) => { button.disabled = false; });
   }
@@ -92,7 +93,7 @@ document.getElementById('saveSettings').addEventListener('click', async () => {
   try {
     const response = await sendAction('saveSettings', { delaySeconds: delayInput.value });
     renderStatus(response.status);
-  } catch { setStatus('Could not save settings.', true); }
+  } catch { setStatus(''); }
 });
 document.getElementById('clearHistory').addEventListener('click', async () => {
   try { await sendAction('clearHistory'); await refresh(); } catch { setStatus('Could not clear history.', true); }
@@ -108,4 +109,4 @@ toggleHistoryButton.addEventListener('click', () => {
   toggleHistoryButton.textContent = isOpen ? 'Hide history' : 'View history';
 });
 
-void refresh().catch(() => setStatus('Open Bandcamp Discover and reload the page after installing the extension.', true));
+void refresh().catch(() => setStatus(''));
