@@ -14,12 +14,20 @@
     button { margin-top: 6px; cursor: pointer; } button.primary { color: white; background: #4c9ab8; }
     button:hover { background: #397c96; color: white; }
     button:disabled { cursor: wait; opacity: .55; } input { width: 60px; }
+    #historyPanel { display: none; }
+    #historyPanel.open { display: block; }
+    #historyList { max-height: 180px; overflow: auto; margin: 8px 0; padding-left: 18px; font-size: 12px; }
+    #historyList li { margin: 7px 0; }
+    #historyList a, #historyList small { display: block; }
+    #historyList a { color: #4c9ab8; }
   </style>
 </head>
 <body>
   <h1>Bandcamp Auto Player</h1>
   <div class="row"><button class="primary" data-action="start">Start</button><button class="primary" data-action="stop">Stop</button></div>
   <div class="row"><button data-action="previous">← Previous</button><button data-action="next">Next →</button></div>
+  <button id="toggleHistory">View history</button>
+  <section id="historyPanel"><ul id="historyList"></ul></section>
   <script src="popup.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
   "name": "Bandcamp Auto Player",
   "version": "1.0.1",
   "description": "Последовательно воспроизводит треки на странице Bandcamp Discover.",
-  "permissions": ["tabs", "scripting"],
+  "permissions": ["tabs", "scripting", "storage"],
   "host_permissions": ["*://*.bandcamp.com/*"],
   "action": {
     "default_popup": "popup.html",
@@ -17,7 +17,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.bandcamp.com/*"],
-      "js": ["content.js"]
+      "js": ["content.js", "history.js"]
     }
   ]
 }

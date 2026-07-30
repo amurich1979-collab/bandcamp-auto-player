@@ -122,6 +122,9 @@
 
   function stopAutoPlay() {
     isPlaying = false;
+    const pauseButton = [...document.querySelectorAll('.discover-player .play-pause-button')]
+      .find((button) => button.getAttribute('aria-label') === 'Pause');
+    pauseButton?.click();
   }
 
   window.startAutoPlay = startAutoPlay;
