@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const QUICK_SKIP_MS = 5000;
+  const QUICK_SKIP_MS = 10000;
   const HISTORY_LIMIT = 100;
   let active = null;
 
