@@ -2,6 +2,8 @@ const statusElement = document.getElementById('status');
 const controls = [...document.querySelectorAll('button[data-action]')];
 const historyElement = document.getElementById('history');
 const delayInput = document.getElementById('delaySeconds');
+const historyPanel = document.getElementById('historyPanel');
+const toggleHistoryButton = document.getElementById('toggleHistory');
 
 function setStatus(text, isError = false) {
   statusElement.textContent = text;
@@ -76,6 +78,10 @@ document.getElementById('saveSettings').addEventListener('click', async () => {
 });
 document.getElementById('clearHistory').addEventListener('click', async () => {
   try { await sendAction('clearHistory'); await refresh(); } catch { setStatus('Could not clear history.', true); }
+});
+toggleHistoryButton.addEventListener('click', () => {
+  const isOpen = historyPanel.classList.toggle('open');
+  toggleHistoryButton.textContent = isOpen ? 'Hide history' : 'View history';
 });
 
 void refresh().catch(() => setStatus('Open Bandcamp Discover and reload the page after installing the extension.', true));
