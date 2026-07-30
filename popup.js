@@ -50,6 +50,24 @@ function renderHistory(history) {
   }
 }
 
+function csvValue(value) {
+  return `"${String(value ?? '').replaceAll('"', '""')}"`;
+}
+
+function exportHistory(history) {
+  const rows = [
+    ['Title', 'Artist', 'Bandcamp link'],
+    ...history.map((item) => [item.title, item.artist, item.url])
+  ];
+  const csv = `\uFEFF${rows.map((row) => row.map(csvValue).join(';')).join('\r\n')}`;
+  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `bandcamp-history-${new Date().toISOString().slice(0, 10)}.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 async function refresh() {
   const [statusResponse, historyResponse] = await Promise.all([sendAction('status'), sendAction('history')]);
   renderStatus(statusResponse.status);
@@ -78,6 +96,12 @@ document.getElementById('saveSettings').addEventListener('click', async () => {
 });
 document.getElementById('clearHistory').addEventListener('click', async () => {
   try { await sendAction('clearHistory'); await refresh(); } catch { setStatus('Could not clear history.', true); }
+});
+document.getElementById('exportHistory').addEventListener('click', async () => {
+  try {
+    const response = await sendAction('history');
+    exportHistory(response.result || []);
+  } catch { setStatus('Could not export history.', true); }
 });
 toggleHistoryButton.addEventListener('click', () => {
   const isOpen = historyPanel.classList.toggle('open');
