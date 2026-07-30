@@ -13,6 +13,7 @@ controls.forEach((button) => {
 const historyPanel = document.getElementById('historyPanel');
 const historyList = document.getElementById('historyList');
 const historyButton = document.getElementById('toggleHistory');
+const exportButton = document.getElementById('exportHistory');
 
 function historyLabel(item) {
   if (item.outcome === 'completed') return 'Played';
@@ -46,4 +47,23 @@ historyButton.addEventListener('click', async () => {
   const opened = historyPanel.classList.toggle('open');
   historyButton.textContent = opened ? 'Hide history' : 'View history';
   if (opened) await renderHistory();
+});
+
+function csvValue(value) {
+  return `"${String(value ?? '').replaceAll('"', '""')}"`;
+}
+
+exportButton.addEventListener('click', async () => {
+  const { history = [] } = await chrome.storage.local.get({ history: [] });
+  const rows = [
+    ['Title', 'Artist', 'Bandcamp link', 'Genre', 'Tags', 'Liked', 'Status'],
+    ...history.map((item) => [item.title, item.artist, item.url, item.genre, (item.tags || []).join(', '), item.liked ? 'Yes' : 'No', historyLabel(item)])
+  ];
+  const csv = `\uFEFF${rows.map((row) => row.map(csvValue).join(';')).join('\r\n')}`;
+  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `bandcamp-history-${new Date().toISOString().slice(0, 10)}.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
 });
