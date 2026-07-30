@@ -128,4 +128,17 @@
   window.stopAutoPlay = stopAutoPlay;
   window.playPreviousTrack = playPreviousTrack;
   window.playNextTrack = playNextTrack;
+
+  chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+    const actions = {
+      start: startAutoPlay,
+      stop: stopAutoPlay,
+      previous: playPreviousTrack,
+      next: playNextTrack
+    };
+    const action = actions[message?.action];
+    if (!action) return false;
+    Promise.resolve(action()).then(() => sendResponse({ ok: true }));
+    return true;
+  });
 })();
