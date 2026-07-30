@@ -9,30 +9,17 @@
     body { width: 200px; margin: 0; padding: 10px; font: 13px/1.35 system-ui, sans-serif; }
     h1, h2 { margin: 0 0 8px; } h1 { font-size: 15px; } h2 { font-size: 13px; margin-top: 12px; }
     #status { min-height: 34px; margin: 0 0 8px; color: #555; } #status.empty { display: none; } #status.error { color: #b42318; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } .settings { display: flex; gap: 8px; align-items: center; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     button, input { box-sizing: border-box; padding: 7px; border: 1px solid #4c9ab8; border-radius: 5px; }
     button { margin-top: 6px; cursor: pointer; } button.primary { color: white; background: #4c9ab8; }
     button:hover { background: #397c96; color: white; }
     button:disabled { cursor: wait; opacity: .55; } input { width: 60px; }
-    #historyPanel { display: none; } #historyPanel.open { display: block; }
-    #history { max-height: 180px; overflow: auto; padding-left: 18px; margin: 6px 0; font-size: 12px; }
-    #history li { margin: 7px 0; } #history a { display: block; color: #4c9ab8; }
-    .outcome { font-size: 11px; } .completed { color: #16803c; } .skipped { color: #b42318; }
   </style>
 </head>
 <body>
   <h1>Bandcamp Auto Player</h1>
-  <p id="status" aria-live="polite">Checking page…</p>
   <div class="row"><button class="primary" data-action="start">Start</button><button class="primary" data-action="stop">Stop</button></div>
   <div class="row"><button data-action="previous">← Previous</button><button data-action="next">Next →</button></div>
-  <div class="settings" hidden><label for="delaySeconds">Delay</label><input id="delaySeconds" type="number" min="0" max="300" step="1"><span>s</span><button id="saveSettings">Save</button></div>
-  <button id="toggleHistory">View history</button>
-  <section id="historyPanel">
-    <h2>Listening history</h2>
-    <ul id="history"></ul>
-    <button id="exportHistory">Export to Excel</button>
-    <button id="clearHistory">Clear history</button>
-  </section>
   <script src="popup.js"></script>
 </body>
 </html>
